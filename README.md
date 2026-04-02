@@ -43,8 +43,10 @@ To ensure scalability, the project follows a domain-driven, modular folder struc
 * **Optimistic UI Updates:** Changing a patient's status updates the UI immediately while syncing in the background.
 
 ### 3. Real-Time Push Notifications (Service Worker)
-* Fully implemented browser **Service Worker** (`sw.js`).
-* **Real-World Use Case:** When a doctor changes a patient's status to "Critical" in the UI, a POST request is sent to a lightweight Node.js backend, which triggers an authentic OS-level Push Notification via the VAPID protocol to alert the user.
+* **Service Worker Integration:** Fully implemented browser-level Service Worker (sw.js) to handle background push events and OS-level alerts.
+* **Persistent Subscription Store:** Integrated Cloud Firestore to securely store VAPID subscription objects. This ensures that notifications are reliably dispatched even in a Serverless environment where in-memory storage is volatile.
+* **Vercel Serverless Functions:** Built a Node.js/Express API hosted as Vercel Functions to handle the logic for subscribing users and triggering notifications.
+* **Real-World Use Case:** When a doctor updates a patient’s status to "Critical", the backend fetches the active subscription from Firestore and triggers an authentic OS-level Push Notification via the VAPID protocol.
 
 ### 4. High-Performance Analytics
 * Built a dedicated Analytics page to visualize patient demographics and department loads.
