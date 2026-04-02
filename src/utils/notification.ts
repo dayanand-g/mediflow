@@ -16,7 +16,7 @@ export const subscribeToNotifications = async () => {
     });
 
     // Send it to the Backend to be saved
-    await fetch('http://localhost:5000/subscribe', {
+    await fetch('/api/subscribe', {
       method: 'POST',
       body: JSON.stringify(subscription),
       headers: {
