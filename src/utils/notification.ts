@@ -16,7 +16,7 @@ export const subscribeToNotifications = async () => {
     });
 
     // Send it to the Backend to be saved
-    await fetch('/api/subscribe', {
+    const response = await fetch('/api/subscribe', {
       method: 'POST',
       body: JSON.stringify(subscription),
       headers: {
@@ -24,7 +24,10 @@ export const subscribeToNotifications = async () => {
       },
     }); 
 
-    console.log("Successfully subscribed and saved to backend!");
+    if (!response.ok) {
+      throw new Error(`Server responded with ${response.status}`);
+    }
+    console.log("Actually successfully subscribed!");
 
   } catch (error) {
     console.error("Error subscribing: ", error);
