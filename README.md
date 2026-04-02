@@ -17,6 +17,19 @@ A high-performance, responsive B2B Healthcare SaaS dashboard built to demonstrat
 
 ---
 
+## 🧠 Architectural Decisions (Micro-Architecture)
+<img width="1536" height="1024" alt="mediflow-design" src="https://github.com/user-attachments/assets/9be4ff91-dc1a-4b6d-8fef-44e5890d3ebe" />
+
+To ensure scalability, the project follows a domain-driven, modular folder structure:
+* `/src/pages`: Isolated modules (Dashboard, Patient, Analytics) acting as distinct domains.
+* `/src/components`: Reusable, generic UI components (Layouts, Modals, Skeletons).
+* `/src/hooks`: Encapsulated business logic (`usePatients`).
+* `/src/lib`: Core utilities and mock data (patient data, stats data) schemas.
+
+**Perceived Performance Optimization:** Implemented mapped Skeleton Loaders (`Array.from`) during data fetching to prevent layout shift and drastically improve perceived load times.
+
+---
+
 ## ✨ Core Features & Rubric Mapping
 
 ### 1. Authentication & Protected Routes
@@ -36,19 +49,6 @@ A high-performance, responsive B2B Healthcare SaaS dashboard built to demonstrat
 ### 4. High-Performance Analytics
 * Built a dedicated Analytics page to visualize patient demographics and department loads.
 * **Performance Choice:** Instead of importing heavy libraries like `Chart.js` or `Recharts` (which bloat the JS bundle), all charts are built using **Pure CSS and Tailwind widths**. This results in a 0kb bundle footprint and instantaneous GPU-accelerated rendering.
-
----
-
-## 🧠 Architectural Decisions (Micro-Architecture)
-<img width="1536" height="1024" alt="mediflow-design" src="https://github.com/user-attachments/assets/9be4ff91-dc1a-4b6d-8fef-44e5890d3ebe" />
-
-To ensure scalability, the project follows a domain-driven, modular folder structure:
-* `/src/pages`: Isolated modules (Dashboard, Patient, Analytics) acting as distinct domains.
-* `/src/components`: Reusable, generic UI components (Layouts, Modals, Skeletons).
-* `/src/hooks`: Encapsulated business logic (`usePatients`).
-* `/src/lib`: Core utilities and mock data (patient data, stats data) schemas.
-
-**Perceived Performance Optimization:** Implemented mapped Skeleton Loaders (`Array.from`) during data fetching to prevent layout shift and drastically improve perceived load times.
 
 ---
 
