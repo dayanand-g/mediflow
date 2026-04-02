@@ -25,11 +25,10 @@ export const usePatients = () => {
       id: `PT-0${patients.length + 1}`, // Generate fake ID
       lastVisit: 'Just now'
     };
-    // Add to top of the list
+    // Add to top of the list in the patient data
     setPatients(prev => [newEntry, ...prev]);
   }, [patients.length]);
 
-  // 3. Update Status & Trigger Notification
   const updatePatientStatus = useCallback(async (id: string, newStatus: Patient['status'], name: string) => {
     // Update UI instantly (Optimistic Update)
     setPatients(prev => prev.map(p => p.id === id ? { ...p, status: newStatus } : p));
@@ -37,7 +36,7 @@ export const usePatients = () => {
     // If status is Critical, trigger the Push Notification!
     if (newStatus === 'Critical') {
       try {
-        await fetch('http://localhost:5000/send-notification', {
+        await fetch('/api/send-notification', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

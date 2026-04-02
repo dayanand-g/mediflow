@@ -6,8 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json()); 
 
-const publicVapidKey = 'BFIkEdGuRbguZupv35dSdiXkqB8Ae6MZXGRnQPo6hmOwsTOCfIE7LsW0IAqxuNPCmlQu4zngMBefBkGkToakuKw';
-const privateVapidKey = '2CA-YY4jhxV3Xz5fgNS8UpwfLRP-UYCxU7tWdjQTC9o';
+const publicVapidKey = process.env.publicVapidKey
+const privateVapidKey = process.env.privateVapidKey;
 
 webpush.setVapidDetails(
   'mailto:dayanandmg00@gmail.com', // Required by browsers to contact me if the issues arise
@@ -57,3 +57,5 @@ app.get('/', (req, res) => {
   res.send('Healthcare Backend is Online! 🚀');
 });
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = app;
