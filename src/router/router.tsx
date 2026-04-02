@@ -4,7 +4,7 @@ import Home from "../pages/home";
 import Login from "../pages/login";
 import Signup from "../pages/signup";
 import Analytics from "../pages/analytics";
-import Patient from "../pages/patient";
+import PatientPage from "../pages/patient";
 import Error from "../pages/error";
 import AppLayout from "@/components/layout/AppLayout";
 import Dashboard from "../pages/dashboard";
@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
                     },
                     {
                         path: "/patient",
-                        element: <Patient />,
+                        element: <PatientPage />,
                         errorElement: <Error /> 
                     }
                 ]

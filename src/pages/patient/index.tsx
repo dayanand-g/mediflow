@@ -6,10 +6,10 @@ import PatientRow from './components/PatientRow';
 import PatientSkeletonGrid from './components/PatientSkeletonGrid'; 
 import type { Patient } from '../../lib/mockData/patients';
 
-type IPatientProps = object;
+type IPatientPageProps = object;
 type ViewMode = 'grid' | 'list';
 
-const Patient: React.FunctionComponent<IPatientProps> = () => {
+const PatientPage: React.FunctionComponent<IPatientPageProps> = () => {
   const { patients, isLoading, searchQuery, setSearchQuery, addPatient, updatePatientStatus } = usePatients();
   const [view, setView] = React.useState<ViewMode>('grid');
 
@@ -144,4 +144,4 @@ const Patient: React.FunctionComponent<IPatientProps> = () => {
   );
 };
 
-export default Patient;
+export default PatientPage;
