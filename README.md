@@ -2,7 +2,7 @@
 
 A high-performance, responsive B2B Healthcare SaaS dashboard built to demonstrate modern frontend architecture, state management, and real-time background processing.
 
-**[🔴 Live Demo (Vercel/Netlify Link Here)](#)**
+**[🔴 Live Demo ](https://www.google.com)**
 
 ---
 
@@ -33,7 +33,7 @@ A high-performance, responsive B2B Healthcare SaaS dashboard built to demonstrat
 * Fully implemented browser **Service Worker** (`sw.js`).
 * **Real-World Use Case:** When a doctor changes a patient's status to "Critical" in the UI, a POST request is sent to a lightweight Node.js backend, which triggers an authentic OS-level Push Notification via the VAPID protocol to alert the user.
 
-### 4. High-Performance Analytics (Bonus)
+### 4. High-Performance Analytics
 * Built a dedicated Analytics page to visualize patient demographics and department loads.
 * **Performance Choice:** Instead of importing heavy libraries like `Chart.js` or `Recharts` (which bloat the JS bundle), all charts are built using **Pure CSS and Tailwind widths**. This results in a 0kb bundle footprint and instantaneous GPU-accelerated rendering.
 
@@ -44,8 +44,8 @@ A high-performance, responsive B2B Healthcare SaaS dashboard built to demonstrat
 To ensure scalability, the project follows a domain-driven, modular folder structure:
 * `/src/pages`: Isolated modules (Dashboard, Patient, Analytics) acting as distinct domains.
 * `/src/components`: Reusable, generic UI components (Layouts, Modals, Skeletons).
-* `/src/hooks`: Encapsulated business logic (`useAuth`, `usePatients`).
-* `/src/lib`: Core utilities and mock data schemas.
+* `/src/hooks`: Encapsulated business logic (`usePatients`).
+* `/src/lib`: Core utilities and mock data (patient data, stats data) schemas.
 
 **Perceived Performance Optimization:** Implemented mapped Skeleton Loaders (`Array.from`) during data fetching to prevent layout shift and drastically improve perceived load times.
 
@@ -55,6 +55,26 @@ To ensure scalability, the project follows a domain-driven, modular folder struc
 
 Because this project features real Web Push Notifications, it requires both the React frontend and a lightweight Node backend to run simultaneously.
 
+
 ### 1. Install Dependencies
 ```bash
 npm install
+
+### 2. Start the Frontend (Vite)
+```bash
+npm run dev
+
+### 3. Start the Push Notification Server (Node)
+
+Open a second terminal window and run:
+
+```bash
+node server.js
+
+### 4. Test the Service Worker
+
+1. Log in to the application.
+2. Navigate to the Patients page.
+3. Ensure your browser is allowing notifications for localhost.
+4. Change any patient's status dropdown to "Critical".
+5. Observe the OS-level push notification arrive.
