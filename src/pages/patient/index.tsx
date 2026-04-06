@@ -35,6 +35,23 @@ const PatientPage: React.FunctionComponent<IPatientPageProps> = () => {
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 bg-slate-50 min-h-screen relative">
       
+      {/* Feature Instruction Note */}
+      <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-md shadow-sm">
+        <div className="flex items-center">
+          <div className="flex-shrink-0">
+            {/* You can use an Info or Alert icon here from Lucide */}
+            <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <div className="ml-3">
+            <p className="text-sm text-red-800">
+              <span className="font-bold">Pro Tip:</span> To test the real-time system, enable alerts on the dashboard, then change a patient's status to <span className="font-bold uppercase">"Critical"</span> to trigger an OS-level push notification.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Header Section */}
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
