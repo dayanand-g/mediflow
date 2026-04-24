@@ -11,6 +11,7 @@ import {
   Bell,
 } from 'lucide-react';
 import { subscribeToNotifications } from '../../utils/notification';
+import { motion } from 'framer-motion';
 
 type IDashboardProps = object;
 
@@ -39,8 +40,6 @@ const Dashboard: React.FunctionComponent<IDashboardProps> = () => {
     setIsSubscribing(true);
     await subscribeToNotifications();
     setIsSubscribing(false);
-    // Note: In a real app, we can save to local storage or context that they are subscribed
-    // so we can hide this button afterwards.
   };
 
   // Simple greeting logic (Calculated once per render, very cheap)
@@ -48,125 +47,175 @@ const Dashboard: React.FunctionComponent<IDashboardProps> = () => {
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10 bg-slate-50 min-h-screen">
+    // The "Glass Tray" container floating over the dark background
+    <main className="relative w-[calc(100%-2rem)] max-w-[1440px] mx-auto mt-4 mb-6 px-4 sm:px-6 lg:px-8 py-8 space-y-10 bg-white/[0.02] backdrop-blur-2xl border border-white/[0.05] min-h-[85vh] rounded-[2.5rem] shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
       
-      {/* Header Section */}
-      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
-            {greeting}, Dr. Smith
-          </h1>
-          <p className="text-slate-500 text-sm">
-            Here is what's happening at your clinic today.
-          </p>
-        </div>
+      {/* Background glow specific to the dashboard */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-2xl bg-gradient-to-b from-cyan-500/5 to-transparent blur-3xl pointer-events-none rounded-t-[2.5rem]" />
 
-        {/* Subscribe Button */}
-        <button 
-          onClick={handleSubscribe}
-          disabled={isSubscribing}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-full text-sm font-medium transition-colors disabled:opacity-50"
+      <div className="relative z-10 space-y-10">
+        {/* HEADER SECTION */}
+        <motion.header 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
         >
-          <Bell className="w-4 h-4" />
-          {isSubscribing ? 'Enabling...' : 'Enable Alerts'}
-        </button>
-      </header>
-
-      {/* Quick Stats (Top row) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {STATS.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <div key={stat.id} className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex items-center gap-6 transition-all hover:shadow-md">
-              <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color}`}>
-                <Icon className="w-8 h-8 stroke-[1.5]" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-slate-500 mb-1">{stat.label}</p>
-                <h2 className="text-3xl font-bold text-slate-900">{stat.value}</h2>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Left Column: Today's Schedule */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-slate-900">Today's Schedule</h2>
-            <button className="text-sm font-medium text-blue-600 hover:text-blue-700">View full calendar</button>
+          <div>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+              {greeting}, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Dr. Smith</span>
+            </h1>
+            <p className="text-slate-400 text-sm md:text-base mt-2 font-medium tracking-wide">
+              System active. Here is your clinic telemetry for today.
+            </p>
           </div>
-          
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-2">
-            {TODAY_SCHEDULE.map((item, index) => (
-              <div 
-                key={item.id} 
-                className={`flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors ${
-                  index !== TODAY_SCHEDULE.length - 1 ? 'border-b border-slate-50' : ''
-                }`}
+
+          {/* Subscribe Button - Cyberpunk Glow Style */}
+          <button 
+            onClick={handleSubscribe}
+            disabled={isSubscribing}
+            className="group relative flex items-center gap-2 px-6 py-2.5 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-400 hover:text-slate-950 border border-cyan-500/20 hover:border-cyan-400 rounded-full text-sm font-bold tracking-wide transition-all duration-300 disabled:opacity-50 overflow-hidden"
+          >
+            {/* Button Hover Sweep Effect */}
+            <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1s_infinite]" />
+            <Bell className="w-4 h-4 relative z-10" />
+            <span className="relative z-10">{isSubscribing ? 'Establishing link...' : 'Enable Alerts'}</span>
+          </button>
+        </motion.header>
+
+        {/* QUICK STATS GRID (Staggered Animation) */}
+        <motion.div 
+          initial="hidden"
+          animate="show"
+          variants={{
+            hidden: { opacity: 0 },
+            show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+          }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        >
+          {STATS.map((stat) => {
+            const Icon = stat.icon;
+            return (
+              <motion.div 
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  show: { opacity: 1, y: 0 }
+                }}
+                whileHover={{ y: -5, scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                key={stat.id} 
+                className="relative group bg-[#0A0F1C] rounded-[2rem] p-6 border border-white/5 hover:border-white/10 transition-colors overflow-hidden"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-16 text-right">
-                    <span className="text-xs font-semibold text-slate-400">{item.time}</span>
+                {/* Subtle card hover glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10 flex items-center gap-6">
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-cyan-400 group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-8 h-8 stroke-[1.5]" />
                   </div>
-                  <div className="w-px h-8 bg-slate-100"></div>
                   <div>
-                    <h3 className="text-sm font-semibold text-slate-900">{item.patient}</h3>
-                    <p className="text-xs text-slate-500">{item.type}</p>
+                    <p className="text-xs font-bold tracking-widest uppercase text-slate-500 mb-1">{stat.label}</p>
+                    <h2 className="text-3xl font-black text-white tracking-tighter">{stat.value}</h2>
                   </div>
                 </div>
-                
-                {/* Dynamic Status Badge */}
-                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium
-                  ${item.status === 'Completed' ? 'bg-emerald-50 text-emerald-700' : 
-                    item.status === 'In Progress' ? 'bg-blue-50 text-blue-700' : 
-                    'bg-slate-100 text-slate-600'}`}
+              </motion.div>
+            )
+          })}
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          {/* LEFT COLUMN: TODAY'S SCHEDULE (Bento Box) */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="lg:col-span-2 space-y-6"
+          >
+            <div className="flex items-center justify-between px-2">
+              <h2 className="text-xl font-bold text-white tracking-tight">Today's Schedule</h2>
+              <button className="text-xs font-bold uppercase tracking-widest text-cyan-500 hover:text-cyan-400 transition-colors">
+                View full calendar
+              </button>
+            </div>
+            
+            <div className="bg-[#0A0F1C] rounded-[2rem] border border-white/5 overflow-hidden p-3 shadow-2xl">
+              {TODAY_SCHEDULE.map((item, index) => (
+                <motion.div 
+                  whileHover={{ x: 4, backgroundColor: "rgba(255,255,255,0.03)" }}
+                  key={item.id} 
+                  className={`flex items-center justify-between p-4 rounded-2xl transition-all ${
+                    index !== TODAY_SCHEDULE.length - 1 ? 'border-b border-white/[0.02]' : ''
+                  }`}
                 >
-                  {item.status === 'Completed' && <CheckCircle2 className="w-3.5 h-3.5" />}
-                  {item.status === 'In Progress' && <Activity className="w-3.5 h-3.5" />}
-                  {item.status === 'Waiting' && <Clock className="w-3.5 h-3.5" />}
-                  {item.status}
-                </span>
-              </div>
-            ))}
-          </div>
+                  <div className="flex items-center gap-5">
+                    <div className="w-16 text-right">
+                      <span className="text-sm font-bold text-cyan-500/70 tracking-tighter">{item.time}</span>
+                    </div>
+                    <div className="w-px h-8 bg-white/10"></div>
+                    <div>
+                      <h3 className="text-base font-semibold text-slate-200">{item.patient}</h3>
+                      <p className="text-xs font-medium text-slate-500 mt-0.5">{item.type}</p>
+                    </div>
+                  </div>
+                  
+                  {/* Dynamic Neon Status Badge */}
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide border
+                    ${item.status === 'Completed' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 
+                      item.status === 'In Progress' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20 animate-pulse' : 
+                      'bg-white/5 text-slate-400 border-white/10'}`}
+                  >
+                    {item.status === 'Completed' && <CheckCircle2 className="w-3.5 h-3.5" />}
+                    {item.status === 'In Progress' && <Activity className="w-3.5 h-3.5" />}
+                    {item.status === 'Waiting' && <Clock className="w-3.5 h-3.5" />}
+                    {item.status}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* RIGHT COLUMN: QUICK ACTIONS */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="space-y-6"
+          >
+            <h2 className="text-xl font-bold text-white tracking-tight px-2">Quick Actions</h2>
+            
+            <div className="bg-[#0A0F1C] rounded-[2rem] border border-white/5 p-4 space-y-3">
+              {[
+                { icon: Users, label: "Patient Directory", route: '/patient', color: "text-blue-400" },
+                { icon: FileText, label: "View Analytics", route: '/analytics', color: "text-violet-400" }
+              ].map((action, idx) => {
+                const ActionIcon = action.icon;
+                return (
+                  <button 
+                    key={idx}
+                    onClick={() => navigate(action.route)}
+                    className="w-full group relative flex items-center justify-between p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] overflow-hidden transition-all duration-300"
+                  >
+                    {/* Sweep gradient hover */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.02] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                    
+                    <div className="relative z-10 flex items-center gap-4 text-slate-300 group-hover:text-white transition-colors">
+                      <div className={`p-2 rounded-xl bg-white/5 border border-white/10 ${action.color}`}>
+                        <ActionIcon className="w-5 h-5" />
+                      </div>
+                      <span className="font-bold tracking-wide text-sm">{action.label}</span>
+                    </div>
+                    <ArrowRight className="relative z-10 w-5 h-5 text-slate-600 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
+                  </button>
+                )
+              })}
+            </div>
+          </motion.div>
+
         </div>
-
-        {/* Right Column: Quick Actions */}
-        <div className="space-y-6">
-          <h2 className="text-xl font-bold text-slate-900">Quick Actions</h2>
-          
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 space-y-4">
-            <button 
-              onClick={() => navigate('/patient')}
-              className="w-full group flex items-center justify-between p-4 rounded-2xl bg-slate-50 hover:bg-slate-900 hover:text-white transition-all duration-200"
-            >
-              <div className="flex items-center gap-3 text-slate-700 group-hover:text-white">
-                <Users className="w-5 h-5" />
-                <span className="font-medium text-sm">Patient Directory</span>
-              </div>
-              <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-transform" />
-            </button>
-
-            <button 
-              onClick={() => navigate('/analytics')}
-              className="w-full group flex items-center justify-between p-4 rounded-2xl bg-slate-50 hover:bg-slate-900 hover:text-white transition-all duration-200"
-            >
-              <div className="flex items-center gap-3 text-slate-700 group-hover:text-white">
-                <FileText className="w-5 h-5" />
-                <span className="font-medium text-sm">View Analytics</span>
-              </div>
-              <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-          
-        </div>
-
       </div>
     </main>
-  );
+    );
 };
 
 export default Dashboard;
