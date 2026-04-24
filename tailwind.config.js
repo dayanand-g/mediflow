@@ -1,3 +1,4 @@
+
 export default {
   darkMode: ["class"],
   content: [
@@ -42,6 +43,16 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        networkFlow: {
+          "0%": { backgroundPosition: "0% 0%", opacity: "0.2" },
+          "50%": { backgroundPosition: "100% 100%", opacity: "0.5" },
+          "100%": { backgroundPosition: "0% 0%", opacity: "0.2" },
+        },
+      },
+      animation: {
+        networkFlow: "networkFlow 2s ease-in-out infinite",
       },
     },
   },
