@@ -9,7 +9,7 @@ export interface Patient {
 }
 
 export const mockPatients: Patient[] = [
-  { id: 'PT-001', name: 'Eleanor Pena', age: 42, gender: 'Female', condition: 'Hypertension', status: 'Stable', lastVisit: 'Oct 12, 2023' },
+  { id: 'PT-001', name: 'Eleanor Pena', age: 42, gender: 'Female', condition: 'Hypertension', status: 'Critical', lastVisit: 'Oct 12, 2023' },
   { id: 'PT-002', name: 'Cody Fisher', age: 28, gender: 'Male', condition: 'Post-Op Recovery', status: 'Observation', lastVisit: 'Oct 24, 2023' },
   { id: 'PT-003', name: 'Esther Howard', age: 65, gender: 'Female', condition: 'Cardiac Arrhythmia', status: 'Critical', lastVisit: 'Nov 01, 2023' },
   { id: 'PT-004', name: 'Cameron Williamson', age: 34, gender: 'Male', condition: 'Type 2 Diabetes', status: 'Stable', lastVisit: 'Nov 05, 2023' },
