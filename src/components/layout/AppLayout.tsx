@@ -5,7 +5,7 @@ import Footer from "./Footer";
 const AppLayout = () => {
 
   return (
-    <div className="h-screen flex bg-gray-100">
+    <div className="min-h-screen flex bg-[#030712] text-slate-200 selection:bg-cyan-500/30">
 
       {/* Main Section */}
       <div className="flex-1 flex flex-col">
