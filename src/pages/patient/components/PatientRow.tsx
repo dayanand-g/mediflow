@@ -28,21 +28,41 @@ const StatusSelector = ({ patient, onStatusChange }: IPatientRowProps) => (
 );
 
 const PatientRow: React.FunctionComponent<IPatientRowProps> = React.memo(({ patient, onStatusChange }: IPatientRowProps) => (
-  <div className="group flex items-center justify-between p-4 hover:bg-white/[0.02] border-b border-white/[0.02] transition-colors">
-    <div className="w-1/3">
-      <h3 className="text-sm font-bold text-slate-200 group-hover:text-white transition-colors">{patient.name}</h3>
-      <p className="text-xs font-bold tracking-wide text-cyan-500/50 uppercase mt-0.5">{patient.id}</p>
+  <div className="group flex flex-wrap md:flex-nowrap items-center justify-between p-4 gap-y-3 md:gap-y-0 hover:bg-white/[0.02] border-b border-white/[0.02] transition-colors">
+    
+    {/* 1. Name & ID (Top Left on Mobile) */}
+    <div className="w-1/2 md:w-1/3 order-1 pr-2">
+      <h3 className="text-sm font-bold text-slate-200 group-hover:text-white transition-colors truncate">
+        {patient.name}
+      </h3>
+      <p className="text-xs font-bold tracking-wide text-cyan-500/50 uppercase mt-0.5">
+        {patient.id}
+      </p>
     </div>
-    <div className="w-1/4">
-      <p className="text-sm font-semibold text-slate-300">{patient.condition}</p>
-      <p className="text-xs font-medium text-slate-500 mt-0.5">{patient.gender}, {patient.age} yrs</p>
+
+    {/* 2. Condition & Demographics (Top Right on Mobile) */}
+    <div className="w-1/2 md:w-1/4 order-2 text-right md:text-left pl-2 md:pl-0">
+      <p className="text-sm font-semibold text-slate-300 truncate">
+        {patient.condition}
+      </p>
+      <p className="text-[11px] md:text-xs font-medium text-slate-500 mt-0.5">
+        {patient.gender}, {patient.age} yrs
+      </p>
     </div>
-    <div className="w-1/4 flex justify-start">
+
+    {/* 3. Status Selector (Bottom Left on Mobile) */}
+    <div className="w-1/2 md:w-1/4 order-3 flex justify-start mt-1 md:mt-0">
       <StatusSelector patient={patient} onStatusChange={onStatusChange} />
     </div>
-    <div className="w-auto flex items-center justify-end gap-4">
-      <span className="text-xs font-bold tracking-widest uppercase text-slate-600 hidden sm:block">{patient.lastVisit}</span>
+
+    {/* 4. Last Visit (Bottom Right on Mobile) */}
+    <div className="w-1/2 md:w-auto order-4 flex items-center justify-end mt-1 md:mt-0">
+      <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-slate-500 md:text-slate-600">
+        <span className="md:hidden mr-1">Visited:</span>
+        {patient.lastVisit}
+      </span>
     </div>
+
   </div>
 ));
 

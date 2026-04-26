@@ -63,7 +63,7 @@ const Navbar = () => {
           </Link>
           <button 
             onClick={() => setIsAccountOpen(true)}
-            className="text-sm font-medium tracking-wide text-slate-300 hover:text-cyan-400 transition-colors"
+            className="hidden md:block text-sm font-medium tracking-wide text-slate-300 hover:text-cyan-400 transition-colors"
           >
             Account
           </button>

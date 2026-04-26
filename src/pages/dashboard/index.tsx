@@ -139,35 +139,46 @@ const Dashboard: React.FunctionComponent<IDashboardProps> = () => {
               </button>
             </div>
             
-            <div className="bg-[#0A0F1C] rounded-[2rem] border border-white/5 overflow-hidden p-3 shadow-2xl">
+            <div className="bg-[#0A0F1C] rounded-[1.5rem] md:rounded-[2rem] border border-white/5 overflow-hidden p-2 md:p-3 shadow-2xl">
               {TODAY_SCHEDULE.map((item, index) => (
                 <motion.div 
                   whileHover={{ x: 4, backgroundColor: "rgba(255,255,255,0.03)" }}
                   key={item.id} 
-                  className={`flex items-center justify-between p-4 rounded-2xl transition-all ${
+                  // Changed to flex-col for mobile, sm:flex-row for larger screens
+                  className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 gap-3 sm:gap-0 rounded-2xl transition-all ${
                     index !== TODAY_SCHEDULE.length - 1 ? 'border-b border-white/[0.02]' : ''
                   }`}
                 >
-                  <div className="flex items-center gap-5">
-                    <div className="w-16 text-right">
-                      <span className="text-sm font-bold text-cyan-500/70 tracking-tighter">{item.time}</span>
+                  <div className="flex items-center gap-4 md:gap-5">
+                    {/* Adjusted time width for mobile */}
+                    <div className="w-12 sm:w-16 text-left sm:text-right shrink-0">
+                      <span className="text-xs sm:text-sm font-bold text-cyan-500/70 tracking-tighter">
+                        {item.time}
+                      </span>
                     </div>
-                    <div className="w-px h-8 bg-white/10"></div>
-                    <div>
-                      <h3 className="text-base font-semibold text-slate-200">{item.patient}</h3>
-                      <p className="text-xs font-medium text-slate-500 mt-0.5">{item.type}</p>
+
+                    {/* Hidden on mobile to save space */}
+                    <div className="hidden sm:block w-px h-8 bg-white/10"></div>
+                    
+                    <div className="min-w-0"> {/* min-w-0 prevents text overflow in flex items */}
+                      <h3 className="text-sm md:text-base font-semibold text-slate-200 truncate">
+                        {item.patient}
+                      </h3>
+                      <p className="text-[10px] md:text-xs font-medium text-slate-500 mt-0.5 truncate">
+                        {item.type}
+                      </p>
                     </div>
                   </div>
                   
-                  {/* Dynamic Neon Status Badge */}
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide border
+                  {/* Status Badge: self-start on mobile, self-center on desktop */}
+                  <span className={`inline-flex items-center self-start sm:self-center gap-1.5 px-3 py-1 md:py-1.5 rounded-full text-[10px] md:text-xs font-bold tracking-wide border whitespace-nowrap
                     ${item.status === 'Completed' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 
                       item.status === 'In Progress' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20 animate-pulse' : 
                       'bg-white/5 text-slate-400 border-white/10'}`}
                   >
-                    {item.status === 'Completed' && <CheckCircle2 className="w-3.5 h-3.5" />}
-                    {item.status === 'In Progress' && <Activity className="w-3.5 h-3.5" />}
-                    {item.status === 'Waiting' && <Clock className="w-3.5 h-3.5" />}
+                    {item.status === 'Completed' && <CheckCircle2 className="w-3 h-3 md:w-3.5 md:h-3.5" />}
+                    {item.status === 'In Progress' && <Activity className="w-3 h-3 md:w-3.5 md:h-3.5" />}
+                    {item.status === 'Waiting' && <Clock className="w-3 h-3 md:w-3.5 md:h-3.5" />}
                     {item.status}
                   </span>
                 </motion.div>
