@@ -3,8 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useDispatch } from 'react-redux';
+import { logInUser, googleSignInUser } from '@/redux/authSlice';
+import type { AppDispatch } from '@/redux/store';
 import type { UserLogIn } from '@/types';
-import { useUserAuth } from '@/context/userAuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthLayout } from '@/components/layout/AuthLayout';
 import { motion } from 'framer-motion';
@@ -17,7 +19,6 @@ const initialValue: UserLogIn = {
 };
 
 const Login: React.FunctionComponent<ILoginProps> = () => {
-  const { googleSignIn, logIn } = useUserAuth();
   const navigate = useNavigate();
 
   const [userLoginInfo, setuserLoginInfo] = React.useState<UserLogIn>(initialValue);
@@ -31,11 +32,14 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
     return newErrors;
   };
 
+  // Redux Dispatch Hook
+  const dispatch = useDispatch<AppDispatch>();
+
   const handleGoogleSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
-      await googleSignIn();
+      await dispatch(googleSignInUser()).unwrap();
       navigate("/");
     } catch (error) {
       setErrors({ general: "Google sign-in failed. Try again." });
@@ -57,7 +61,7 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
     try {
       setLoading(true);
       setErrors({});
-      await logIn(userLoginInfo.email, userLoginInfo.password);
+      await dispatch(logInUser({ email: userLoginInfo.email, password: userLoginInfo.password })).unwrap();
       navigate("/");
     } catch (error) {
       setErrors({ general: "Invalid email or password" });

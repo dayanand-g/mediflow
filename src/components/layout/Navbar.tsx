@@ -1,21 +1,23 @@
 import React from "react";
-import { useUserAuth } from "@/context/userAuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Account from "../../pages/account";
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
+import { logOutUser } from "@/redux/authSlice";
 
 
 const Navbar = () => {
   const [isAccountOpen, setIsAccountOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
-  const { logOut } = useUserAuth();
+  const dispatch = useDispatch<AppDispatch>();
 
   // Logout handler
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
-      await logOut();
+      await dispatch(logOutUser()).unwrap();
       navigate("/signin");
     } catch {
       // Handle error (optional)
@@ -28,7 +30,7 @@ const Navbar = () => {
   const logout = async () => {
     try {
       setLoading(true);
-      await logOut();
+      await dispatch(logOutUser()).unwrap();
       navigate("/signin");
     } catch {
       // Handle error (optional)
