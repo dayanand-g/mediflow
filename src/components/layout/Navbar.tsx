@@ -37,7 +37,6 @@ const Navbar = () => {
     }
   };
 
-  // inside your Navbar component return statement
   return (
     <>
       {/* NEW FLOATING PILL NAV - STRUCTURE MATCHING REFERENCE IMAGE 

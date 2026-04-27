@@ -135,7 +135,7 @@ const Home = () => {
     // Base Enterprise Dark Theme: Deep Slate/Navy (#030712)
     <main className="relative mx-auto py-0 pb-12 px-4 sm:px-6 lg:px-8 space-y-24 bg-[#030712] min-h-screen rounded-xl overflow-hidden selection:bg-cyan-500/30 w-[calc(100%-2rem)] max-w-[1440px]">
       
-      {/* GLOBAL BACKGROUND EFFECTS (The "Raga" Nebula effect) */}
+      {/* GLOBAL BACKGROUND EFFECTS (The Nebula effect) */}
       <div className="fixed inset-0 pointer-events-none z-0 flex justify-center items-center">
         <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-blue-600/20 blur-[120px]" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-violet-600/20 blur-[120px]" />
@@ -162,7 +162,7 @@ const Home = () => {
       animate={{ 
         scale: 1, 
         opacity: 1, 
-        y: [0, -4, 0], // Subtle floating loop
+        y: [0, -4, 0],
       }}
       transition={{
         opacity: { duration: 0.6, delay: 0.15 },
